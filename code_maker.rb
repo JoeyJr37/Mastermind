@@ -34,19 +34,26 @@ class CodeMaker
         correct_color_and_position = 0
         correct_color = 0
         captured_elements = []
+        secret_code_copy = []
+        guess_copy = []
         if guess == @secret_code
             return "You did it!"
         elsif guess != @secret_code
             # return the elements in each array that match color & position
             guess.each_with_index do |element, index| 
                 if element == @secret_code[index]
-                    captured_elements.push(element)
                     correct_color_and_position += 1
+                else
+                    secret_code_copy.push(@secret_code[index])
+                    guess_copy.push(element)
                 end
             end
-            guess.each_with_index do |element, index|    
-                if element != @secret_code[index] && @secret_code.include?(element) && !captured_elements.include?(element) 
-                    captured_elements.push(element)
+            secret_code_copy.each_with_index do |element, index|
+                # if the guessed color is in the secret_code +1 for correct color
+                # if the secret code contains the same element multiple times, 
+                    # and the guess contains the same element multiple times,
+                    # then +x for correct color where x is how many times the element appears in both cases    
+                if guess_copy.include?(element)
                     correct_color += 1                
                 end
             end

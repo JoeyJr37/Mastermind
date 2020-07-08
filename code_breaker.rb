@@ -6,7 +6,8 @@ class CodeBreaker
 
     def used_a_turn
         @turns_left -= 1
-        p "#{@turns_left} turns left..."
+        puts "#{@turns_left} turns left..."
+        puts "\n"
     end
 
     def game_over?

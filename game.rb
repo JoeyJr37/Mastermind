@@ -11,7 +11,7 @@ class Game
         puts 'Welcome to Mastermind! What is your name?'
         name = gets.chomp
         puts "Greetings #{name.capitalize!}! A randomly selected secret code is being generated."
-        p @code_maker.generate_secret_code
+        secret_code = @code_maker.generate_secret_code
     end
 
     def receive_guess
@@ -30,6 +30,7 @@ class Game
     end
 
     def compare_guess_to_secret_code
+        secret_code = start_new_game
         guess = receive_guess
         response = @code_maker.compare_guess_to_secret_code(guess)
         until response == "You did it!" || @code_breaker.game_over?
@@ -37,10 +38,13 @@ class Game
             guess = receive_guess
             response = @code_maker.compare_guess_to_secret_code(guess)
         end
-        p "You did it!"
+        if @code_breaker.game_over?
+            puts "Maybe next time! The secret code was #{secret_code}"
+        else
+            puts "You did it! The secret code was #{secret_code}"
+        end
     end
 end
 
 new_game = Game.new
-new_game.start_new_game
 new_game.compare_guess_to_secret_code
