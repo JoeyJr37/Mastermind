@@ -59,31 +59,32 @@ class Game
         user_input = gets.chomp
         secret_code = user_input.split(", ").map { |element| element.capitalize }
         # if the secret code includes something other than the original colors, throw an exception
+        colors = ["Red", "Blue", "Yellow", "Green", "Purple", "Maroon"]
         validate_secret_code = secret_code.filter do |element| 
-            # add some code here so that the secret_code is validated
+            !colors.include?(element)
         end
         if validate_secret_code.empty? == false
             p validate_secret_code
             puts "Your code was invalid. Please try again."
             user_creates_code
         else
-            p secret_code
+            secret_code
         end
     end
 
-    def computer_guess(secret_code)
+    def computer_is_decoder(secret_code)
         # computer guesses code
         computer_guess = @code_maker.generate_secret_code
-        p "My guess: #{computer_guess}"
+        p "My guess is: #{computer_guess}"
         until computer_guess == secret_code || @code_breaker.game_over?
             @code_breaker.used_a_turn
-            computer_guess
+            computer_is_decoder(secret_code)
         end
     end
 
     def user_is_mastermind
         secret_code = user_creates_code
-        computer_guess(secret_code)
+        computer_is_decoder(secret_code)
     end
 end
 

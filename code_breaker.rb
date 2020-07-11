@@ -1,5 +1,5 @@
 class CodeBreaker
-
+    attr_reader :turns_left
     def initialize
         @turns_left = 12
     end
