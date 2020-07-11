@@ -59,7 +59,16 @@ class Game
         user_input = gets.chomp
         secret_code = user_input.split(", ").map { |element| element.capitalize }
         # if the secret code includes something other than the original colors, throw an exception
-        p secret_code
+        validate_secret_code = secret_code.filter do |element| 
+            # add some code here so that the secret_code is validated
+        end
+        if validate_secret_code.empty? == false
+            p validate_secret_code
+            puts "Your code was invalid. Please try again."
+            user_creates_code
+        else
+            p secret_code
+        end
     end
 
     def computer_guess(secret_code)
