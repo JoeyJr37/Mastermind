@@ -58,11 +58,11 @@ class Game
         puts "Please enter four colors separated by a comma(choices are red, blue, green, purple, yellow, maroon):"
         user_input = gets.chomp
         secret_code = user_input.split(", ").map { |element| element.capitalize }
-        # if the secret code includes something other than the original colors, throw an exception
         colors = ["Red", "Blue", "Yellow", "Green", "Purple", "Maroon"]
         validate_secret_code = secret_code.filter do |element| 
             !colors.include?(element)
         end
+        # if the secret code includes something other than the original colors, throw an exception
         if validate_secret_code.empty? == false
             p validate_secret_code
             puts "Your code was invalid. Please try again."
@@ -81,7 +81,10 @@ class Game
             computer_is_decoder(secret_code)
         end
     end
-
+    def computer_trying_to_crack_code
+        #some cool code here
+        
+    end
     def user_is_mastermind
         secret_code = user_creates_code
         computer_is_decoder(secret_code)
