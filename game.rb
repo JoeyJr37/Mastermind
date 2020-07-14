@@ -73,21 +73,41 @@ class Game
     end
 
     def computer_is_decoder(secret_code)
-        # computer guesses code
-        computer_guess = @code_maker.generate_secret_code
-        p "My guess is: #{computer_guess}"
         until computer_guess == secret_code || @code_breaker.game_over?
             @code_breaker.used_a_turn
-            computer_is_decoder(secret_code)
         end
     end
-    def computer_trying_to_crack_code
-        #some cool code here
-        
+    def compare_computer_guess_to_secret_code(secret_code, computer_guess)
+        secret_code.each_with_index do |element, index|
+            if element == computer_guess[index]
+                element
+            else
+                "Wrong"
+            end
+        end
     end
     def user_is_mastermind
         secret_code = user_creates_code
-        computer_is_decoder(secret_code)
+        computer_guess = @code_maker.generate_secret_code
+        p "My guess is: #{computer_guess}"
+        new_computer_guess = compare_computer_guess_to_secret_code(secret_code, computer_guess)
+        p new_computer_guess
+        # computer_is_decoder(secret_code)
+    end
+
+    def this_is_the_function(secret_code, computer_guess)
+        array_of_correct_elements = []
+        until array_of_correct_elements == secret_code
+            array_of_correct_elements = compare_computer_guess_to_secret_code(secret_code, computer_guess)
+            new_array = array_of_correct_elements.map do |element|
+                    if element == nil
+                        @code_maker.determine_secret_code(rand(6))
+                    else
+                        element
+                    end
+                end
+            array_of_correct_elements = computer_trying_to_crack_code(secret_code, new_array)
+            end
     end
 end
 
