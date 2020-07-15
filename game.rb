@@ -72,42 +72,52 @@ class Game
         end
     end
 
-    def computer_is_decoder(secret_code)
-        until computer_guess == secret_code || @code_breaker.game_over?
-            @code_breaker.used_a_turn
-        end
-    end
     def compare_computer_guess_to_secret_code(secret_code, computer_guess)
+        secret_code_computer_results = []
         secret_code.each_with_index do |element, index|
             if element == computer_guess[index]
-                element
+                secret_code_computer_results.push(element)
+            elsif computer_guess.include?(element)
+                secret_code_computer_results.push("Warm: #{element}")
             else
-                "Wrong"
+                secret_code_computer_results.push("Wrong")
             end
         end
+
+        secret_code_computer_results
     end
+
     def user_is_mastermind
         secret_code = user_creates_code
         computer_guess = @code_maker.generate_secret_code
-        p "My guess is: #{computer_guess}"
+        p "My first guess is: #{computer_guess}"
         new_computer_guess = compare_computer_guess_to_secret_code(secret_code, computer_guess)
-        p new_computer_guess
-        # computer_is_decoder(secret_code)
+        p this_is_the_function(secret_code, new_computer_guess)
     end
 
     def this_is_the_function(secret_code, computer_guess)
         array_of_correct_elements = []
-        until array_of_correct_elements == secret_code
+        until computer_guess == secret_code || @code_breaker.game_over?
+            @code_breaker.used_a_turn
             array_of_correct_elements = compare_computer_guess_to_secret_code(secret_code, computer_guess)
+            p "Feedback is #{array_of_correct_elements}"
             new_array = array_of_correct_elements.map do |element|
-                    if element == nil
+                    if element == "Wrong"
                         @code_maker.determine_secret_code(rand(6))
+                    elsif element.include?("Warm")
+                        element.delete_prefix("Warm: ")
                     else
                         element
                     end
                 end
-            array_of_correct_elements = computer_trying_to_crack_code(secret_code, new_array)
-            end
+            p "My new guess is: #{new_array}"
+            computer_guess = compare_computer_guess_to_secret_code(secret_code, new_array)
+        end
+        if @code_breaker.game_over?
+            "I lost."
+        else
+            "I did it!"
+        end
     end
 end
 
